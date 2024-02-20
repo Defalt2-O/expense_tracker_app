@@ -4,7 +4,9 @@ import 'package:expense_tracker_app/expenses.dart';
 void main() {
   runApp(
     const MaterialApp(
-      home: Expenses(),
+      home: Scaffold(
+        body: Expenses(),
+      ),
     ),
   );
 }
