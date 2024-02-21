@@ -29,13 +29,21 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text('Charts'),
-        Expanded(
-          child: ExpensesList(expenses: _registeredExpense),
-        ),
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter Expense App'),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+        ],
+      ),
+      body: Column(
+        children: [
+          const Text('Charts'),
+          Expanded(
+            child: ExpensesList(expenses: _registeredExpense),
+          ),
+        ],
+      ),
     );
   }
 }
