@@ -28,11 +28,11 @@ class ExpenseItem extends StatelessWidget {
                 ),
                 const Spacer(), //When placed in between 2 elements that are in a row/column,
                 //spacer takes all the available remaining space in between those elements.
-                const Icon(Icons.alarm),
+                Icon(categoryIcons[expense.category]),
                 const SizedBox(
                   width: 8,
                 ),
-                Text(expense.date.toString()),
+                Text(expense.formattedDate),
               ],
             ),
           ],
