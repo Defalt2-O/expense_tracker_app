@@ -28,12 +28,19 @@ class _ExpensesState extends State<Expenses> {
     ),
   ];
 
+  void addExpense(Expense newExpense) {
+    setState(() {
+      _registeredExpense.add(newExpense);
+    });
+  }
+
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       context:
           context, //context tells Flutter where the content should be displayed in the app.
-      builder: (ctx) =>
-          const NewExpense(), //similarly ctx is the context for the Modal Overlay.
+      builder: (ctx) => NewExpense(
+        onAddExpense: addExpense,
+      ), //similarly ctx is the context for the Modal Overlay.
     );
   }
 
