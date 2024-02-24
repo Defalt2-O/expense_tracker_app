@@ -81,7 +81,9 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16,
+          16), //Creates space at the top, in order to prevent title label from
+      //colliding with phone features such as camera on top of screen.
       child: Column(
         children: [
           TextField(

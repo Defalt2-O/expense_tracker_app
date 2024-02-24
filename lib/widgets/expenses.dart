@@ -36,6 +36,8 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      isScrollControlled:
+          true, //This allows the overlay to take the full width of the screen. Therefore keyboard won't cover available widgets.
       context:
           context, //context tells Flutter where the content should be displayed in the app.
       builder: (ctx) => NewExpense(
