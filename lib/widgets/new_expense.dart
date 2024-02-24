@@ -35,6 +35,18 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
+  void _submitExpenseData() {
+    final enteredAmount = double.tryParse(_amountController
+        .text); //double.tryParse takes a string input and tries to convert it
+    //into a double. Else a null value is returned.
+    final amountIsValid = enteredAmount == null || enteredAmount <= 0;
+    if (_titleController.text.trim().isEmpty ||
+        amountIsValid ||
+        _selectedDate == null) {
+      //Print error
+    }
+  }
+
   @override
   void dispose() {
     _amountController.dispose();
@@ -104,13 +116,14 @@ class _NewExpenseState extends State<NewExpense> {
           Row(
             children: [
               DropdownButton(
-                value: _selectedCategory,
+                value: _selectedCategory, //currently displayed text on dropdown
                 items: Category.values
                     .map(
                       (category) => DropdownMenuItem(
                         value: category,
                         child: Text(
-                          category.name.toUpperCase(),
+                          category.name
+                              .toUpperCase(), //Individual options being passed to dropdown menu
                         ),
                       ),
                     )
@@ -121,7 +134,8 @@ class _NewExpenseState extends State<NewExpense> {
                   }
                   setState(
                     () {
-                      _selectedCategory = value;
+                      _selectedCategory =
+                          value; //on changing category, change _selectedcategory to the selected...value
                     },
                   );
                 },
@@ -135,10 +149,7 @@ class _NewExpenseState extends State<NewExpense> {
                 child: const Text('Cancel'),
               ),
               ElevatedButton(
-                onPressed: () {
-                  print(_titleController.text);
-                  print(_amountController.text);
-                },
+                onPressed: _submitExpenseData,
                 child: const Text('Save Expense'),
               ),
             ],
