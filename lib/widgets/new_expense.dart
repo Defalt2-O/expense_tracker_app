@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
@@ -18,6 +20,16 @@ class _NewExpenseState extends State<NewExpense> {
 
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+
+  void _presentDatePicker() {
+    final now = DateTime.now();
+    final firstDate = DateTime(now.year - 1, now.month, now.day);
+    showDatePicker(
+        context: context,
+        firstDate: firstDate,
+        lastDate: now,
+        initialDate: now);
+  }
 
   @override
   void dispose() {
@@ -43,23 +55,45 @@ class _NewExpenseState extends State<NewExpense> {
               label: Text('Title'),
             ),
           ),
-          TextField(
-            controller: _amountController,
-            keyboardType: TextInputType
-                .number, //shows a number pad instead of a keyboard.
-            maxLength: 10,
-            decoration: const InputDecoration(
-              prefixText:
-                  '₹ ', //This will add text before the field where the user enters data
-              label: Text('Amount'),
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType: TextInputType
+                      .number, //shows a number pad instead of a keyboard.
+                  maxLength: 10,
+                  decoration: const InputDecoration(
+                    prefixText:
+                        '₹ ', //This will add text before the field where the user enters data
+                    label: Text('Amount'),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text('Selected Date '),
+                    IconButton(
+                      onPressed: _presentDatePicker,
+                      icon: const Icon(Icons.calendar_month),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           Row(
             children: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(
-                      context); //Pops content off until the 'context' attached screen is encountered.
+                      context); //Whatever argument you pass to pop, that argument is removed.
                 },
                 child: const Text('Cancel'),
               ),
