@@ -5,9 +5,23 @@ var kcolorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 222, 46, 11),
 );
 
+var kDarkColorScheme = ColorScheme.fromSeed(
+  seedColor: const Color.fromARGB(255, 5, 99, 125),
+  brightness: Brightness.dark,
+);
+//Brightness is needed to tell Flutter that this color scheme is used for Dark Mode.
+
 void main() {
   runApp(
     MaterialApp(
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: kDarkColorScheme,
+        cardTheme: const CardTheme().copyWith(
+          color: kDarkColorScheme.primaryContainer,
+          elevation: 5,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        ),
+      ),
       theme: ThemeData().copyWith(
         colorScheme: kcolorScheme,
         appBarTheme: const AppBarTheme().copyWith(
@@ -31,6 +45,7 @@ void main() {
                   fontSize: 16, color: kcolorScheme.onPrimaryContainer),
             ),
       ),
+      themeMode: ThemeMode.system,
       home: const Expenses(),
     ),
   );
