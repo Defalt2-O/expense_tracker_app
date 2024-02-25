@@ -95,7 +95,10 @@ class _NewExpenseState extends State<NewExpense> {
             maxLength: 50,
             decoration: const InputDecoration(
               //In order for a label to be provided, we must access the decoration argument first
-              label: Text('Title'),
+              label: Text(
+                'Title',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           Row(
@@ -109,7 +112,10 @@ class _NewExpenseState extends State<NewExpense> {
                   decoration: const InputDecoration(
                     prefixText:
                         '₹ ', //This will add text before the field where the user enters data
-                    label: Text('Amount'),
+                    label: Text(
+                      'Amount',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),

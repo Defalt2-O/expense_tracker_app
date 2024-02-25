@@ -16,6 +16,13 @@ class ExpensesList extends StatelessWidget {
           .length, //Item count runs the function below, as many times as its value.
       //index starts from 0 and runs the function until it is equal to itemCount
       itemBuilder: (ctx, index) => Dismissible(
+        background: Container(
+          color: Theme.of(context).colorScheme.error,
+          margin: EdgeInsets.symmetric(
+            horizontal: Theme.of(context).cardTheme.margin!.horizontal - 14,
+          ),
+        ), //When we set Themes in the MaterialApp widget, we can
+        //use those themes by using the above syntax.
         key: ValueKey(expenses[index]),
         onDismissed: (direction) => onAddExpense(
           expenses[index],
