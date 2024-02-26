@@ -35,5 +35,6 @@ class ExpensesList extends StatelessWidget {
     //ListView returns a widget that displays a scrolling list of child widgets in the form of a column.
     //Howeever, we also use builder with it as ListView, without builder, creates all scrollable items when it is called.
     //Whereas builder allows for creation of those items, only when they are present on the screen.
+    //Builder allows us to create itemBuilder, which satisfies the above scrolling only when visible property.
   }
 }

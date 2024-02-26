@@ -35,3 +35,20 @@ class Expense {
     return formatter.format(date); //Uses function of yMd called format.
   }
 }
+
+class ExpenseBucket {
+  const ExpenseBucket({required this.expenses, required this.category});
+
+  final Category category;
+  final List<Expense> expenses;
+
+  double get totalExpense {
+    double sum = 0;
+
+    for (final expense in expenses) {
+      sum += expense.amount;
+    }
+
+    return sum;
+  }
+}

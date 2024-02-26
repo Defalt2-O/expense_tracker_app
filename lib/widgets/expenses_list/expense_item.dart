@@ -28,7 +28,8 @@ class ExpenseItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '₹${expense.amount.toStringAsFixed(2)}',
+                  '₹${expense.amount.toStringAsFixed(2)}', //To string as fixed allows  us to limit the decimal places to two
+                  //while converting the value into String.
                 ),
                 const Spacer(), //When placed in between 2 elements that are in a row/column,
                 //spacer takes all the available remaining space in between those elements.
