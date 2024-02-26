@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expense_tracker_app/widgets/expenses.dart';
+import 'package:flutter/services.dart'; //Used for settings such as landscape
 
 var kcolorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 222, 46, 11),
@@ -12,6 +13,14 @@ var kDarkColorScheme = ColorScheme.fromSeed(
 //Brightness is needed to tell Flutter that this color scheme is used for Dark Mode.
 
 void main() {
+  // WidgetsFlutterBinding
+  //     .ensureInitialized(); //Ensures that the orientation settings below are carried out.
+  // SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.portraitUp,
+  //   ],
+  // ).then(
+  //   (fn) {
   runApp(
     MaterialApp(
       darkTheme: ThemeData.dark().copyWith(
@@ -49,4 +58,7 @@ void main() {
       home: const Expenses(),
     ),
   );
+//     },
+//   );
+// }
 }
