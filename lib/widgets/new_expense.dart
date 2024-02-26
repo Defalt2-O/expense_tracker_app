@@ -86,11 +86,12 @@ class _NewExpenseState extends State<NewExpense> {
         .bottom; //View insets gets data about elements overlapping
     //other UI elements..from the bottom here.
     return SizedBox(
+      height: double.infinity,
       child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
               16,
-              48,
+              16,
               16,
               keyboardSpacing +
                   16), //Creates space at the top, in order to prevent title label from

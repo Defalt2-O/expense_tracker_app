@@ -64,6 +64,8 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+        useSafeArea:
+            true, //Ensures that the concerned Widget does not interfere with the device features(camera etc)
         isScrollControlled:
             true, //This allows the overlay to take the full width of the screen. Therefore keyboard won't cover available widgets.
         context:
@@ -71,7 +73,9 @@ class _ExpensesState extends State<Expenses> {
         builder: (ctx) => NewExpense(
               onAddExpense: addExpense,
             ), //similarly ctx is the context for the Modal Overlay.
-        constraints: const BoxConstraints(maxWidth: double.infinity));
+        constraints: const BoxConstraints(
+          maxWidth: double.infinity,
+        ));
   }
 
   @override
