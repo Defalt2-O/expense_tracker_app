@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:expense_tracker_app/models/expense.dart';
 import 'package:expense_tracker_app/widgets/new_expense.dart';
 import 'package:expense_tracker_app/widgets/chart/chart.dart';
+import 'package:flutter/widgets.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -63,18 +64,20 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
-      isScrollControlled:
-          true, //This allows the overlay to take the full width of the screen. Therefore keyboard won't cover available widgets.
-      context:
-          context, //context tells Flutter where the content should be displayed in the app.
-      builder: (ctx) => NewExpense(
-        onAddExpense: addExpense,
-      ), //similarly ctx is the context for the Modal Overlay.
-    );
+        isScrollControlled:
+            true, //This allows the overlay to take the full width of the screen. Therefore keyboard won't cover available widgets.
+        context:
+            context, //context tells Flutter where the content should be displayed in the app.
+        builder: (ctx) => NewExpense(
+              onAddExpense: addExpense,
+            ), //similarly ctx is the context for the Modal Overlay.
+        constraints: const BoxConstraints(maxWidth: double.infinity));
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     Widget mainContent = const Center(
       child: Text('No Expenses Found. Wanna add some maybe?'),
     );
@@ -92,14 +95,25 @@ class _ExpensesState extends State<Expenses> {
               onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add)),
         ],
       ),
-      body: Column(
-        children: [
-          Chart(expenses: _registeredExpense),
-          Expanded(
-            child: mainContent,
-          ),
-        ],
-      ),
+      body: width < 600
+          ? Column(
+              children: [
+                Chart(expenses: _registeredExpense),
+                Expanded(
+                  child: mainContent,
+                ),
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: Chart(expenses: _registeredExpense),
+                ),
+                Expanded(
+                  child: mainContent,
+                ),
+              ],
+            ),
     );
   }
 }
