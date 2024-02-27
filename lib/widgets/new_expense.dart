@@ -85,124 +85,238 @@ class _NewExpenseState extends State<NewExpense> {
         .viewInsets
         .bottom; //View insets gets data about elements overlapping
     //other UI elements..from the bottom here.
-    return SizedBox(
-      height: double.infinity,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-              16,
-              16,
-              16,
-              keyboardSpacing +
-                  16), //Creates space at the top, in order to prevent title label from
-          //colliding with phone features such as camera on top of screen.
-          child: Column(
-            children: [
-              TextField(
-                controller: _titleController,
-                // onChanged:
-                //     _saveTitleInput, //onChanged is executed each time the TextField widget value changes.
-                //Used to accept inputs from the user
-                maxLength: 50,
-                decoration: const InputDecoration(
-                  //In order for a label to be provided, we must access the decoration argument first
-                  label: Text(
-                    'Title',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              Row(
+
+    return LayoutBuilder(
+      //Checks against the parent Widget's constraints to determine how best to layout its children.
+      builder: (ctx, constraints) {
+        final width = constraints.maxWidth;
+        return SizedBox(
+          height: double.infinity,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                  16,
+                  16,
+                  16,
+                  keyboardSpacing +
+                      16), //Creates space at the top, in order to prevent title label from
+              //colliding with phone features such as camera on top of screen.
+              child: Column(
                 children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _amountController,
-                      keyboardType: TextInputType
-                          .number, //shows a number pad instead of a keyboard.
-                      maxLength: 10,
+                  if (width >= 600)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _titleController,
+                            // onChanged:
+                            //     _saveTitleInput, //onChanged is executed each time the TextField widget value changes.
+                            //Used to accept inputs from the user
+                            maxLength: 50,
+                            decoration: const InputDecoration(
+                              //In order for a label to be provided, we must access the decoration argument first
+                              label: Text(
+                                'Title',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 24,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: _amountController,
+                            keyboardType: TextInputType
+                                .number, //shows a number pad instead of a keyboard.
+                            maxLength: 10,
+                            decoration: const InputDecoration(
+                              prefixText:
+                                  '₹ ', //This will add text before the field where the user enters data
+                              label: Text(
+                                'Amount',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  else
+                    TextField(
+                      controller: _titleController,
+                      // onChanged:
+                      //     _saveTitleInput, //onChanged is executed each time the TextField widget value changes.
+                      //Used to accept inputs from the user
+                      maxLength: 50,
                       decoration: const InputDecoration(
-                        prefixText:
-                            '₹ ', //This will add text before the field where the user enters data
+                        //In order for a label to be provided, we must access the decoration argument first
                         label: Text(
-                          'Amount',
+                          'Title',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  if (width >= 600)
+                    Row(
                       children: [
-                        Text(
-                          _selectedDate == null
-                              ? 'No Date Selected'
-                              : formatter.format(_selectedDate!),
+                        DropdownButton(
+                          value:
+                              _selectedCategory, //currently displayed text on dropdown
+                          items: Category.values
+                              .map(
+                                (category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(
+                                    category.name
+                                        .toUpperCase(), //Individual options being passed to dropdown menu
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            if (value == null) {
+                              return;
+                            }
+                            setState(
+                              () {
+                                _selectedCategory =
+                                    value; //on changing category, change _selectedcategory to the selected...value
+                              },
+                            );
+                          },
                         ),
-                        //The ! after selectedDate tells FLutter that the _selectedDate value will never be null.
-                        //formatter is a method 'DateTime(yMd)' and 'format' returns a String, allowing it to be displayed as a text
-                        IconButton(
-                          onPressed: _presentDatePicker,
-                          icon: const Icon(Icons.calendar_month),
+                        const Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              _selectedDate == null
+                                  ? 'No Date Selected'
+                                  : formatter.format(_selectedDate!),
+                            ),
+                            //The ! after selectedDate tells FLutter that the _selectedDate value will never be null.
+                            //formatter is a method 'DateTime(yMd)' and 'format' returns a String, allowing it to be displayed as a text
+                            IconButton(
+                              onPressed: _presentDatePicker,
+                              icon: const Icon(Icons.calendar_month),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  else
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _amountController,
+                            keyboardType: TextInputType
+                                .number, //shows a number pad instead of a keyboard.
+                            maxLength: 10,
+                            decoration: const InputDecoration(
+                              prefixText:
+                                  '₹ ', //This will add text before the field where the user enters data
+                              label: Text(
+                                'Amount',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                _selectedDate == null
+                                    ? 'No Date Selected'
+                                    : formatter.format(_selectedDate!),
+                              ),
+                              //The ! after selectedDate tells FLutter that the _selectedDate value will never be null.
+                              //formatter is a method 'DateTime(yMd)' and 'format' returns a String, allowing it to be displayed as a text
+                              IconButton(
+                                onPressed: _presentDatePicker,
+                                icon: const Icon(Icons.calendar_month),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Row(
-                children: [
-                  DropdownButton(
-                    value:
-                        _selectedCategory, //currently displayed text on dropdown
-                    items: Category.values
-                        .map(
-                          (category) => DropdownMenuItem(
-                            value: category,
-                            child: Text(
-                              category.name
-                                  .toUpperCase(), //Individual options being passed to dropdown menu
-                            ),
-                          ),
+                  if (width >= 600)
+                    Row(
+                      children: [
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(
+                                context); //Whatever argument you pass to pop, that argument is removed.
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        ElevatedButton(
+                          onPressed: _submitExpenseData,
+                          child: const Text('Save Expense'),
                         )
-                        .toList(),
-                    onChanged: (value) {
-                      if (value == null) {
-                        return;
-                      }
-                      setState(
-                        () {
-                          _selectedCategory =
-                              value; //on changing category, change _selectedcategory to the selected...value
-                        },
-                      );
-                    },
-                  ),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(
-                          context); //Whatever argument you pass to pop, that argument is removed.
-                    },
-                    child: const Text('Cancel'),
-                  ),
-                  ElevatedButton(
-                    onPressed: _submitExpenseData,
-                    child: const Text('Save Expense'),
-                  ),
+                      ],
+                    )
+                  else
+                    Row(
+                      children: [
+                        DropdownButton(
+                          value:
+                              _selectedCategory, //currently displayed text on dropdown
+                          items: Category.values
+                              .map(
+                                (category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(
+                                    category.name
+                                        .toUpperCase(), //Individual options being passed to dropdown menu
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            if (value == null) {
+                              return;
+                            }
+                            setState(
+                              () {
+                                _selectedCategory =
+                                    value; //on changing category, change _selectedcategory to the selected...value
+                              },
+                            );
+                          },
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(
+                                context); //Whatever argument you pass to pop, that argument is removed.
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        ElevatedButton(
+                          onPressed: _submitExpenseData,
+                          child: const Text('Save Expense'),
+                        ),
+                      ],
+                    ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
