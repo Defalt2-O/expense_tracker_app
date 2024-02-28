@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:expense_tracker_app/models/expense.dart';
+import 'package:flutter/cupertino.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key, required this.onAddExpense});
@@ -45,21 +48,43 @@ class _NewExpenseState extends State<NewExpense> {
     if (_titleController.text.trim().isEmpty ||
         amountIsValid ||
         _selectedDate == null) {
-      showDialog(
+      if (Platform.isIOS) {
+        showCupertinoDialog(
+          context: context,
+          builder: (ctx) {
+            return CupertinoAlertDialog(
+              title: const Text('Invalid Input!'),
+              content: const Text(
+                  'Please ensure that the entered title, amount and date was correct.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-                title: const Text('Invalid Input!'),
-                content: const Text(
-                    'Please ensure that the entered title, amount and date was correct.'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(ctx);
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              ));
+            title: const Text('Invalid Input!'),
+            content: const Text(
+                'Please ensure that the entered title, amount and date was correct.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
       return;
     }
     widget.onAddExpense(
